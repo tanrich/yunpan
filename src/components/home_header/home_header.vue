@@ -4,7 +4,7 @@
       <el-col :span="1">&nbsp;</el-col>
       <el-col :span="22">
         <div class="logo">
-          <img src="./logo.png" height="50" alt="logo">
+          <img src="../../assets/logo.png" height="50" alt="logo">
         </div>
         <div class="name">重邮云盘</div>
       </el-col>

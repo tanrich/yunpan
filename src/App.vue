@@ -1,23 +1,14 @@
 <template>
   <div id="app">
-    <VHeader></VHeader>
-    <VContent></VContent>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import { Button, Slider } from 'element-ui'
-  import Vue from 'vue'
-  import VHeader from './components/header/header.vue'
-  import VContent from './components/content/content.vue'
   export default {
     name: 'app',
     data () {
       return {}
-    },
-    components: {
-      VHeader,
-      VContent
     }
   }
 </script>
@@ -31,5 +22,5 @@
     -webkit-font-smoothing antialiased
     display flex
     flex-direction column
-    height 100%
+    height inherit
 </style>

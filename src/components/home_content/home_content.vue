@@ -9,8 +9,8 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import VNavList from '../navList/navList.vue'
-  import VFileList from '../fileList/fileList.vue'
+  import VNavList from '../home_navList/home_navList.vue'
+  import VFileList from '../home_fileList/home_fileList.vue'
   import Vue from 'vue'
   import { Row, Col, Menu, MenuItem, MenuItemGroup, Submenu } from 'element-ui'
   Vue.use(Row)
