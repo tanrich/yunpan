@@ -23,4 +23,6 @@
     display flex
     flex-direction column
     height inherit
+    min-width 1275px
+    cursor default
 </style>

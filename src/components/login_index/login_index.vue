@@ -5,7 +5,7 @@
         <el-col :span="1">&nbsp;</el-col>
         <el-col :span="23">
           <div class="logo">
-            <img src="../../assets/logo.png" height="55" alt="logo">
+            <img src="../../common/images/logo.png" height="55" alt="logo">
           </div>
           <div class="name">重邮云盘</div>
         </el-col>
@@ -206,7 +206,7 @@
               }
             })
             .catch(err => console.log(err))
-        }, 0)
+        }, 300)
       }
       return {
         activeTab: 'login',
@@ -224,7 +224,7 @@
         },
         r_rules: {
           r_username: [
-            {validator: vRUsername, trigger: ['change', 'blur']}
+            {validator: vRUsername, trigger: 'blur'}
           ],
           r_password: [
             {validator: vRPassword, trigger: 'blur'}
@@ -264,8 +264,6 @@
                 } else if (res.status === 1) {
                   console.log('登陆成功')
                   this.$router.push({path: '/home'})
-                } else if (res.status === 2) {
-                  console.log('验证码错误')
                 }
               })
               .catch(err => console.log(err))
@@ -273,7 +271,6 @@
         })
       },
       register () {
-        let _self = this
         this.$refs.r_form.validate(res => {
           if (res) {
             API.register(this.form)
@@ -287,10 +284,8 @@
                     message: '恭喜你注册成功！',
                     duration: 2000
                   })
-                  _self.activeTab = 'login'
-                  _self.$refs.r_form.resetFields()
-                } else if (res.status === 2) {
-                  console.log('验证码错误')
+                  this.activeTab = 'login'
+                  this.$refs.r_form.resetFields()
                 }
               })
               .catch(err => console.log(err))
@@ -299,9 +294,9 @@
       },
       changeCheckCode (value, event) {
         if (value === 'login') {
-          this.$refs.l_authImage.src = 'http://192.168.43.232:8080/authImage?date=' + new Date()
+          this.$refs.l_authImage.src = API.checkCodeSrc + '?date=' + new Date()
         } else if (value === 'register') {
-          this.$refs.r_authImage.src = 'http://192.168.43.232:8080/authImage?date=' + new Date()
+          this.$refs.r_authImage.src = API.checkCodeSrc + '?date=' + new Date()
         }
       }
     }
