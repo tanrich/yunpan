@@ -1,8 +1,8 @@
 <template>
   <div class="file_list"
        ref="file_list"
-       @mousedown.left.stop="hideRightContextMenu($event)"
-       @mousedown.right.stop="showRightContextMenu($event)">
+       @mousedown.left.stop="FileListLeftClick($event)"
+       @mousedown.right.stop="FileListRightClick($event)">
     <div class="tool_list">
       <div class="major_function">
         <el-upload class="upload"
@@ -44,7 +44,7 @@
           <div>已全部加载,共{{filePackageContent.length}}个</div>
         </div>
         <div class="file_package_title_select">
-          <el-checkbox v-model="checkedAll" @change="setCheckedAll">全选</el-checkbox>
+          <el-checkbox v-model="checkedAll" @change="setCheckedAll(checkedAll)">全选</el-checkbox>
         </div>
       </div>
       <div class="file_package_content">
@@ -53,7 +53,8 @@
               class="file_package_content_item overFile"
               :class="{isChecked:item.checked}"
               :key="index"
-              @click.stop="folderClick(item.fileName,$event)"
+              @mousedown.left.stop="folderLeftClick(item.fileName,$event)"
+              @mousedown.right="folderRightClick(item)"
           >
             <div class="type overFile"></div>
             <div class="name overFile">{{item.fileName}}</div>
@@ -64,20 +65,23 @@
         </ul>
       </div>
     </div>
-    <div class="context_menu" ref="context_menu" v-show="contextMenu.status">
+    <div class="context_menu"
+         ref="context_menu"
+         v-show="contextMenu.status"
+    >
       <ul v-show="contextMenu.overFileStatus">
-        <li v-for="list in contextMenu.overFile.typeOne" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overFile.typeOne" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overFile.typeTwo" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overFile.typeTwo" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overFile.typeThree" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overFile.typeThree" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overFile.typeFour" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overFile.typeFour" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
       </ul>
       <ul v-show="!contextMenu.overFileStatus">
-        <li v-for="list in contextMenu.overSpace.typeOne" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overSpace.typeOne" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overSpace.typeTwo" class="context_menu_list">{{list}}</li>
+        <li v-for="list in contextMenu.overSpace.typeTwo" @mousedown.left.stop="selectFunction(list, $event)" class="context_menu_list">{{list}}</li>
       </ul>
     </div>
   </div>
@@ -137,6 +141,7 @@
         left: this.$refs['file_list'].getBoundingClientRect().left,
         top: this.$refs['file_list'].getBoundingClientRect().top
       }
+
       // 打开页面自动请求所有文件
       API.getAllFiles(this.fileConfig)
         .then(res => {
@@ -151,8 +156,9 @@
         clearTimeout(this.searchWait)
         this.searchWait = setTimeout(() => console.log('ajax中'), 300)
       },
-      // 点击文件夹事件
-      folderClick (path, event) {
+
+      // 左键点击文件夹事件
+      folderLeftClick (path, event) {
         let className = event.target.className
         if (className === 'el-checkbox__inner' || className === 'el-checkbox__original') {
           return false
@@ -168,6 +174,13 @@
           })
           .catch(err => console.log(err))
       },
+
+      // 右键点击文件夹事件
+      folderRightClick (item) {
+        this.setCheckedAll(false)
+        item.checked = true
+      },
+
       // 新建文件夹
       newFolder () {
         API.newFolder(Object.assign({}, this.fileConfig, {folderName: 123}))
@@ -177,18 +190,37 @@
           })
           .catch(err => console.log(err))
       },
-      // 全选
-      setCheckedAll () {
+
+      // 改变全部文件选中状态
+      setCheckedAll (value) {
         this.filePackageContent.forEach((item) => {
-          item.checked = this.checkedAll
+          item.checked = value
         })
       },
+
+      // 本组件右键点击事件
+      FileListRightClick (event) {
+        this.showRightContextMenu(event)
+      },
+
+      // 本组件左键点击事件
+      FileListLeftClick () {
+        this.hideRightContextMenu()
+        this.setCheckedAll(false)
+      },
+
+      // 隐藏右键菜单
+      hideRightContextMenu () {
+        this.contextMenu.status = false
+      },
+
       // 显示并定位右键菜单
       showRightContextMenu (event) {
         let classList = event.target.classList
         this.contextMenu.status = true
         this.$refs['context_menu'].style.top = event.pageY - this.fileList.top + 'px'
         this.$refs['context_menu'].style.left = event.pageX - this.fileList.left + 'px'
+        // 判断点击区域class是否包含overFile
         for (let k of classList) {
           if (k === 'overFile') {
             this.contextMenu.overFileStatus = true
@@ -197,9 +229,11 @@
         }
         this.contextMenu.overFileStatus = false
       },
-      // 隐藏右键菜单
-      hideRightContextMenu () {
-        this.contextMenu.status = false
+
+      // 选择右键菜单功能
+      selectFunction (value, event) {
+        console.log(value)
+        this.hideRightContextMenu()
       }
     }
   }
