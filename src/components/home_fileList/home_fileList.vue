@@ -363,7 +363,7 @@
 
       // 改变重命名状态
       renameState (value) {
-        if (this.checkedIndex) {
+        if (this.checkedIndex !== '') {
           this.filePackageContent[this.checkedIndex].isRename = value
         }
       },
