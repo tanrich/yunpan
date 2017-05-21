@@ -260,13 +260,32 @@
               .then(res => {
                 res = res.data
                 if (res.status === 0) {
-                  console.log('用户名或者密码不对')
+                  console.log('用户名或者密码不正确')
+                  Message.error({
+                    showClose: true,
+                    message: '用户名或者密码不正确！',
+                    duration: 2000
+                  })
                 } else if (res.status === 1) {
                   console.log('登陆成功')
+                  Message.success({
+                    showClose: true,
+                    message: '登陆成功！',
+                    duration: 2000
+                  })
                   this.$router.push({path: '/home'})
+                } else {
+                  throw new Error('登陆失败')
                 }
               })
-              .catch(err => console.log(err))
+              .catch(err => {
+                console.err(err)
+                Message.error({
+                  showClose: true,
+                  message: '网络发生错误！',
+                  duration: 2000
+                })
+              })
           }
         })
       },
@@ -276,9 +295,7 @@
             API.register(this.form)
               .then(res => {
                 res = res.data
-                if (res.status === 0) {
-                  console.log('用户名已被注册')
-                } else if (res.status === 1) {
+                if (res.status === 1) {
                   Message.success({
                     showClose: true,
                     message: '恭喜你注册成功！',
@@ -286,9 +303,18 @@
                   })
                   this.activeTab = 'login'
                   this.$refs.r_form.resetFields()
+                } else {
+                  throw new Error('注册失败')
                 }
               })
-              .catch(err => console.log(err))
+              .catch(err => {
+                console.err(err)
+                Message.error({
+                  showClose: true,
+                  message: '注册失败！',
+                  duration: 2000
+                })
+              })
           }
         })
       },

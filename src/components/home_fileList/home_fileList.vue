@@ -6,10 +6,11 @@
     <div class="tool_list">
       <div class="major_function">
         <el-upload class="upload"
-                   action="http://192.168.43.232:8080/upload"
+                   :action="baseURL+'/upload'"
                    :data="fileConfig"
                    :show-file-list="false"
                    :with-credentials="true"
+                   :on-change="uploadStatus"
         >
           <el-button type="primary">
             上传 <i class="el-icon-upload el-icon--right"></i>
@@ -17,13 +18,13 @@
         </el-upload>
         <el-button @click="newFolder">新建文件夹 <i class="el-icon-plus el-icon--right"></i></el-button>
       </div>
-      <div class="secondary_function" v-show="checkedIndex!==''" @mousedown.left.stop>
-        <el-button>分享 <i class="el-icon-share el-icon--right"></i></el-button>
-        <el-button>下载 <i class="el-icon-arrow-down el-icon--right"></i></el-button>
-        <el-button>删除 <i class="el-icon-delete el-icon--right"></i></el-button>
-        <el-button>重命名 <i class="el-icon-edit el-icon--right"></i></el-button>
-        <el-button>复制到 <i class="el-icon-document el-icon--right"></i></el-button>
-        <el-button>更多 <i class="el-icon-more el-icon--right"></i></el-button>
+      <div class="secondary_function" v-show="checkedIndex!==''" @mousedown.left.stop="selectFunction($event)">
+        <el-button>分享<i class="el-icon-share el-icon--right"></i></el-button>
+        <el-button>下载<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+        <el-button>删除<i class="el-icon-delete el-icon--right"></i></el-button>
+        <el-button>重命名<i class="el-icon-edit el-icon--right"></i></el-button>
+        <el-button>复制到<i class="el-icon-document el-icon--right"></i></el-button>
+        <el-button>更多<i class="el-icon-more el-icon--right"></i></el-button>
       </div>
       <div class="search">
         <el-input
@@ -39,7 +40,7 @@
     <div class="file_package">
       <div class="file_package_title">
         <div class="file_package_title_info">
-          <div>全部文件</div>
+          <div>{{fileConfig.path}}</div>
           <div>已全部加载,共{{filePackageContent.length}}个</div>
         </div>
         <div class="file_package_title_select" @mousedown.left.stop>
@@ -50,22 +51,22 @@
         <ul>
           <li v-for="(item,index) in filePackageContent"
               class="file_package_content_item overFile"
-              :class="[
-              {isChecked:item.checked},
-              initKinds(item)
-              ]"
+              :class="{isChecked:item.checked}"
               :key="index"
               @mousedown.left.stop="folderLeftClick(item,$event)"
               @mousedown.right="folderRightClick(item, index)"
           >
-            <div class="type overFile"></div>
+            <div class="type overFile" :class="initKinds(item)"></div>
             <div class="name overFile" v-show="!item.isRename">{{item.fileName}}</div>
             <div class="rename" v-show="item.isRename">
               <input type="text"
                      autofocus="autofocus"
                      @keydown.enter.stop="submitNewName(item)"
+                     @mousedown.left.stop
                      v-model="item.newName"
-              ><i class="el-icon-close" @click="cancelRename($event)"></i>
+              ><i class="el-icon-close"
+                  @mousedown.left.stop="cancelRename($event)"
+            ></i>
             </div>
             <div class="choose" @mousedown.left.stop>
               <el-checkbox v-model="item.checked" @change="folderSelect(item,index)"></el-checkbox>
@@ -109,6 +110,7 @@
     name: '',
     data () {
       return {
+        baseURL: API.baseURL,
         fileList: {
           left: '',
           top: ''
@@ -162,6 +164,9 @@
         checkedIndex: ''
       }
     },
+    created () {
+      Message.closeAll()
+    },
     mounted () {
       // 获取fileList对于网页的位置，方便以后使用
       this.fileList = {
@@ -170,26 +175,20 @@
       }
 
       // 打开页面自动请求所有文件
-      API.getAllFiles(this.fileConfig)
-        .then(res => {
-          res = res.data.data
-          this.filePackageContent = res
-//          res.forEach(item => {
-//            if (item.kinds === 'folder') {
-//              item.folder = true
-//              this.filePackageContent.folder.push(item)
-//            } else if (item.kinds === 'document') {
-//              item.document = true
-//              this.filePackageContent.document.push(item)
-//            } else {
-//              item.others = true
-//              this.filePackageContent.others.push(item)
-//            }
-//          })
-        })
-        .catch(err => console.log(err))
+      this.initFilePackageContent()
     },
     methods: {
+      // 初始化页面数据
+      initFilePackageContent () {
+        this.fileConfig.path = '/'
+        API.getAllFiles(this.fileConfig)
+          .then(res => {
+            res = res.data.data
+            this.filePackageContent = res
+          })
+          .catch(err => console.error(err))
+      },
+
       // 初始化file类别，分配对应class图标
       initKinds (item) {
         switch (item.kinds) {
@@ -211,14 +210,50 @@
       // 文件路径初始化
       initFileConfig (path) {
         let _self = this
-        this.fileConfig = {
-          path: this.fileConfig.path + path
-        }
-        this.initFileConfig = function (path) {
+        if (this.fileConfig.path === '/') {
+          this.fileConfig = {
+            path: this.fileConfig.path + path
+          }
+        } else {
           this.fileConfig = {
             path: this.fileConfig.path + '/' + path
           }
         }
+      },
+
+      // 上传过程调用函数
+      uploadStatus (file) {
+        Message.closeAll()
+        if (file.status === 'ready') {
+          Message.info({
+            showClose: true,
+            message: '正在上传中…',
+            duration: 2000
+          })
+        } else if (file.status === 'success') {
+          Message.success({
+            showClose: true,
+            message: '上传成功！',
+            duration: 2000
+          })
+          this.refresh()
+        } else if (file.status === 'error') {
+          Message.error({
+            showClose: true,
+            message: '上传失败！',
+            duration: 2000
+          })
+        }
+      },
+
+      // 刷新
+      refresh () {
+        API.getAllFiles(this.fileConfig)
+          .then(res => {
+            res = res.data.data
+            this.filePackageContent = res
+          })
+          .catch(err => console.error(err))
       },
 
       // 搜索
@@ -232,15 +267,12 @@
         console.log('进入')
 
         this.initFileConfig(item.fileName)
-//        this.fileConfig = {
-//          path: this.fileConfig.path + path
-//        }
         API.getAllFiles(this.fileConfig)
           .then(res => {
             res = res.data.data
             this.filePackageContent = res
           })
-          .catch(err => console.log(err))
+          .catch(err => console.error(err))
       },
 
       // 右键点击文件夹事件
@@ -257,12 +289,40 @@
 
       // 新建文件夹
       newFolder () {
-        API.newFolder(Object.assign({}, this.fileConfig, {folderName: 123}))
+        // 保存旧数组长度便于比较
+        let oldLength = this.filePackageContent.length
+        // 本地模拟创建一个文件夹
+        this.filePackageContent.push({
+          fileName: '5',
+          checked: true,
+          isRename: true,
+          kinds: 'folder'
+        })
+        // 为新创建的文件夹记录默认选中值
+        this.checkedIndex = this.filePackageContent.length - 1
+        API.newFolder(Object.assign({}, this.fileConfig, {folderName: '新建文件夹'}))
           .then(res => {
             res = res.data.data
-            this.filePackageContent = res
+            console.log(res.length, oldLength)
+            if (res.length !== oldLength) {
+              this.filePackageContent = res
+              Message.success({
+                showClose: true,
+                message: '文件夹创建成功！',
+                duration: 2000
+              })
+            } else {
+              throw new Error('文件夹创建失败')
+            }
           })
-          .catch(err => console.log(err))
+          .catch(err => {
+            console.error(err)
+            Message.error({
+              showClose: true,
+              message: '文件夹创建失败！',
+              duration: 2000
+            })
+          })
       },
 
       // 改变全部文件选中状态
@@ -336,6 +396,7 @@
             break
           case '删除':
             console.log('删除')
+            this.delete()
             break
           case '查看':
             console.log('查看')
@@ -344,7 +405,7 @@
             console.log('排序方式')
             break
           case '刷新':
-            console.log('删除')
+            this.refresh()
             break
           case '重新加载页面':
             console.log('重新加载页面')
@@ -356,6 +417,32 @@
         this.hideRightContextMenu()
       },
 
+      // 删除文件操作
+      delete () {
+        API.delete({id: this.filePackageContent[this.checkedIndex].id})
+          .then(res => {
+            res = res.data
+            if (res.status === 1) {
+              Message.success({
+                showClose: true,
+                message: '删除成功！',
+                duration: 2000
+              })
+              this.refresh()
+            } else {
+              throw new Error('修改失败')
+            }
+          })
+          .catch(err => {
+            console.error(err)
+            Message.error({
+              showClose: true,
+              message: '删除失败！',
+              duration: 2000
+            })
+          })
+      },
+
       // 取消重命名
       cancelRename () {
         this.renameState(false)
@@ -363,8 +450,10 @@
 
       // 改变重命名状态
       renameState (value) {
+        console.log(this.checkedIndex)
         if (this.checkedIndex !== '') {
-          this.filePackageContent[this.checkedIndex].isRename = value
+          // Vue 不能检测到对象属性的添加或删除
+          this.$set(this.filePackageContent[this.checkedIndex], 'isRename', value)
         }
       },
 
@@ -375,10 +464,10 @@
         this.renameState(false)
         if (item.kinds === 'folder') {
           // 文件夹名字修改
-          API.folderRename(Object.assign({}, this.fileConfig, {
-            newFolderName: item.newName,
-            fileName: tmpName
-          }))
+          API.folderRename({
+            id: item.id,
+            newFolderName: item.newName
+          })
             .then(res => {
               res = res.data
               if (res.status === 1) {
@@ -392,7 +481,7 @@
               }
             })
             .catch(err => {
-              console.log(err)
+              console.error(err)
               Message.error({
                 showClose: true,
                 message: '修改失败！',
@@ -401,10 +490,10 @@
             })
         } else {
           // 文件名字修改
-          API.fileRename(Object.assign({}, this.fileConfig, {
-            newFileName: item.newName,
-            fileName: tmpName
-          }))
+          API.fileRename({
+            id: item.id,
+            newFileName: item.newName
+          })
             .then(res => {
               res = res.data
               if (res.status === 1) {
@@ -418,7 +507,7 @@
               }
             })
             .catch(err => {
-              console.log(err)
+              console.error(err)
               Message.error({
                 showClose: true,
                 message: '修改失败！',
@@ -486,27 +575,27 @@
           border 1px solid transparent
           box-sizing border-box
           vertical-align top
-          &:hover
-            background #f1f5fa
-            border-radius 7px
-            .choose
-              visibility visible
           &.isChecked
             background #f1f5fa
             border 1px solid #90c3fd
             border-radius 7px
             .choose
               visibility visible
-          &.folder
-            background url("./file.png") center no-repeat
-          &.document
-            background url("./document.png") center no-repeat
-          &.others
-            background url("./others.png") center no-repeat
+          &:hover
+            background #f1f5fa
+            border-radius 7px
+            .choose
+              visibility visible
           .type
             width 84px
             height 84px
-            margin 9px auto 0;
+            margin 9px auto 0
+            &.folder
+              background url("./file.png") center no-repeat
+            &.document
+              background url("./document.png") center no-repeat
+            &.others
+              background url("./others.png") center no-repeat
           .name
             font-size 14px
             text-align center

@@ -1,7 +1,7 @@
 <template>
-  <div class="navList">
+  <div class="navList" @mousedown.left="selectNav($event)">
     <el-menu default-active="1" class="el-menu-vertical-demo">
-      <el-menu-item index="1"><i class="el-icon-menu"></i>所有文件</el-menu-item>
+      <el-menu-item index="1"><i class="el-icon-menu" value="所有文件"></i>所有文件</el-menu-item>
       <el-menu-item index="2"><i class="el-icon-picture"></i>图片</el-menu-item>
       <el-menu-item index="3"><i class="el-icon-document"></i>文档</el-menu-item>
       <el-menu-item index="4"><i class="el-icon-date"></i>视频</el-menu-item>
@@ -25,7 +25,12 @@
     data () {
       return {}
     },
-    methods: {}
+    methods: {
+      selectNav (event) {
+        let selectFunction = event.target.innerText || event.target.getAttribute('value')
+        this.$emit('selectNav', selectFunction)
+      }
+    }
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus" scoped>

@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <div style="flex: 4;text-align: center;height: 100%">
-      <VNavList></VNavList>
+      <VNavList @selectNav="selectNav"></VNavList>
     </div>
     <div style="flex: 20;height: 100%">
-      <VFileList></VFileList>
+      <VFileList ref="file_list"></VFileList>
     </div>
   </div>
 </template>
@@ -27,6 +27,12 @@
     components: {
       VNavList,
       VFileList
+    },
+    methods: {
+      selectNav (selectFunction) {
+        console.log(selectFunction)
+        this.$refs['file_list'].initFilePackageContent(selectFunction)
+      }
     }
   }
 </script>

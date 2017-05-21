@@ -23,8 +23,6 @@
       this.$refs['home_index'].oncontextmenu = function () {
         return false
       }
-      // 关闭message默认卡片事件
-      Message.closeAll()
       // console.log(getLocalStorage(false))
       API.vCheckLogin()
         .then(res => {
