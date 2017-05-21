@@ -18,12 +18,11 @@
       <file leaf-file-name="login_index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/login_index/login_index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="260" column="30" lean-forward="false" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
+            <state relative-caret-position="162">
+              <caret line="49" column="46" lean-forward="false" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="46" />
               <folding>
                 <element signature="e#108#114#1" expanded="true" />
                 <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="e#3695#3701#1" expanded="true" />
                 <element signature="e#4143#4149#1" expanded="true" />
@@ -46,8 +45,8 @@
       <file leaf-file-name="home_index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/home_index/home_index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="29" column="22" lean-forward="true" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+            <state relative-caret-position="600">
+              <caret line="29" column="22" lean-forward="false" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
               <folding>
                 <element signature="e#199#255#0" expanded="true" />
                 <marker date="1495173574000" expanded="true" signature="788:1115" ph="..." />
@@ -59,29 +58,35 @@
       <file leaf-file-name="home_fileList.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/home_fileList/home_fileList.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1725">
-              <caret line="59" column="57" lean-forward="false" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
+            <state relative-caret-position="158">
+              <caret line="57" column="51" lean-forward="false" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="51" />
               <folding>
-                <element signature="n#el-upload#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="n#ul#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#ul#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="e#3927#3948#0" expanded="true" />
-                <element signature="e#4199#4248#0" expanded="false" />
-                <element signature="e#4278#4442#0" expanded="false" />
-                <element signature="e#4542#4572#0" expanded="false" />
-                <element signature="e#5045#5187#0" expanded="false" />
-                <element signature="e#5444#5561#0" expanded="false" />
-                <element signature="e#5619#6108#0" expanded="false" />
-                <element signature="e#6160#6231#0" expanded="false" />
-                <element signature="e#6268#6508#0" expanded="false" />
-                <element signature="e#6559#6662#0" expanded="false" />
-                <element signature="e#6717#6767#0" expanded="false" />
-                <element signature="e#6816#6895#0" expanded="false" />
-                <element signature="e#7050#7563#0" expanded="false" />
-                <element signature="e#7620#7692#0" expanded="false" />
-                <element signature="e#8103#8416#0" expanded="false" />
-                <element signature="e#8441#10049#0" expanded="false" />
+                <element signature="e#4215#4236#0" expanded="true" />
+                <element signature="e#4515#4564#0" expanded="false" />
+                <element signature="e#4594#5154#0" expanded="false" />
+                <element signature="e#5254#5285#0" expanded="false" />
+                <element signature="e#5308#5669#0" expanded="false" />
+                <element signature="e#5726#6608#0" expanded="false" />
+                <element signature="e#6679#6999#0" expanded="false" />
+                <element signature="e#7047#7315#0" expanded="false" />
+                <element signature="e#7346#7463#0" expanded="false" />
+                <element signature="e#7521#7883#0" expanded="false" />
+                <element signature="e#7745#7832#0" expanded="false" />
+                <element signature="e#7942#8047#0" expanded="false" />
+                <element signature="e#8110#8193#0" expanded="false" />
+                <element signature="e#8230#8470#0" expanded="false" />
+                <element signature="e#8521#8695#0" expanded="false" />
+                <element signature="e#8750#8800#0" expanded="false" />
+                <element signature="e#9072#9121#0" expanded="false" />
+                <element signature="e#9178#9691#0" expanded="false" />
+                <element signature="e#9741#10758#0" expanded="false" />
+                <element signature="e#10798#10839#0" expanded="false" />
+                <element signature="e#11741#11932#0" expanded="false" />
+                <element signature="e#12141#12459#0" expanded="false" />
+                <element signature="e#12487#12678#0" expanded="false" />
+                <element signature="e#13108#13421#0" expanded="false" />
+                <element signature="e#16045#16598#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -90,8 +95,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/api/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="9" column="2" lean-forward="false" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+            <state relative-caret-position="72">
+              <caret line="3" column="42" lean-forward="false" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -138,8 +143,20 @@
       <find>Message</find>
       <find>self</find>
       <find>newFolder</find>
+      <find>isRename</find>
+      <find>name</find>
+      <find>重命名</find>
       <find>test</find>
+      <find>@mousedown.left.stop=&quot;selectFunction(list, $event)&quot;</find>
       <find>selectFunction</find>
+      <find>rename</find>
+      <find>select</find>
+      <find>isrename</find>
+      <find>native</find>
+      <find>submitNewName</find>
+      <find>checkedIndex</find>
+      <find>全选</find>
+      <find>folderLeftClick</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -161,8 +178,8 @@
         <option value="$PROJECT_DIR$/src/App.vue" />
         <option value="$PROJECT_DIR$/src/components/login_index/login_index.vue" />
         <option value="$PROJECT_DIR$/src/common/js/store.js" />
-        <option value="$PROJECT_DIR$/src/api/index.js" />
         <option value="$PROJECT_DIR$/src/components/home_index/home_index.vue" />
+        <option value="$PROJECT_DIR$/src/api/index.js" />
         <option value="$PROJECT_DIR$/src/components/home_fileList/home_fileList.vue" />
       </list>
     </option>
@@ -246,6 +263,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -286,91 +305,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="router" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="home_navList" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="home_index" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="home_header" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -396,104 +331,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="home_content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudDisk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -507,17 +346,17 @@
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/common/images" />
-      <recent name="$PROJECT_DIR$/src/assets" />
-      <recent name="$PROJECT_DIR$/src/components/fileList" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/home_fileList" />
       <recent name="$PROJECT_DIR$/src/components/home_header" />
       <recent name="$PROJECT_DIR$/src/components/login_index" />
       <recent name="$PROJECT_DIR$/src/components/navList" />
       <recent name="$PROJECT_DIR$/static" />
-      <recent name="$PROJECT_DIR$/src/components/header" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/common/images" />
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src/components/fileList" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -610,18 +449,21 @@
       <workItem from="1494846479418" duration="17830000" />
       <workItem from="1495094362754" duration="5386000" />
       <workItem from="1495112034034" duration="5410000" />
-      <workItem from="1495167326694" duration="13555000" />
+      <workItem from="1495167326694" duration="16199000" />
+      <workItem from="1495249258240" duration="10975000" />
+      <workItem from="1495333990713" duration="31000" />
+      <workItem from="1495334048711" duration="6441000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68370000" />
+    <option name="totallyTimeSpent" value="88461000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18268467" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24861" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -648,7 +490,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -684,26 +526,32 @@
         <state relative-caret-position="1728">
           <caret line="79" column="17" lean-forward="false" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
           <folding>
-            <element signature="n#el-upload#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#ul#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#ul#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#3927#3948#0" expanded="true" />
-            <element signature="e#4199#4248#0" expanded="false" />
-            <element signature="e#4278#4442#0" expanded="false" />
-            <element signature="e#4542#4572#0" expanded="false" />
-            <element signature="e#5045#5187#0" expanded="false" />
-            <element signature="e#5444#5561#0" expanded="false" />
-            <element signature="e#5619#6108#0" expanded="false" />
-            <element signature="e#6160#6231#0" expanded="false" />
-            <element signature="e#6268#6508#0" expanded="false" />
-            <element signature="e#6559#6662#0" expanded="false" />
-            <element signature="e#6717#6767#0" expanded="false" />
-            <element signature="e#6816#6895#0" expanded="false" />
-            <element signature="e#7050#7563#0" expanded="false" />
-            <element signature="e#7620#7692#0" expanded="false" />
-            <element signature="e#8103#8416#0" expanded="false" />
-            <element signature="e#8441#10049#0" expanded="false" />
+            <element signature="e#4215#4236#0" expanded="true" />
+            <element signature="e#4515#4564#0" expanded="false" />
+            <element signature="e#4594#5154#0" expanded="false" />
+            <element signature="e#5254#5285#0" expanded="false" />
+            <element signature="e#5308#5669#0" expanded="false" />
+            <element signature="e#5726#6608#0" expanded="false" />
+            <element signature="e#6679#6999#0" expanded="false" />
+            <element signature="e#7047#7315#0" expanded="false" />
+            <element signature="e#7346#7463#0" expanded="false" />
+            <element signature="e#7521#7883#0" expanded="false" />
+            <element signature="e#7745#7832#0" expanded="false" />
+            <element signature="e#7942#8047#0" expanded="false" />
+            <element signature="e#8110#8193#0" expanded="false" />
+            <element signature="e#8230#8470#0" expanded="false" />
+            <element signature="e#8521#8695#0" expanded="false" />
+            <element signature="e#8750#8800#0" expanded="false" />
+            <element signature="e#9072#9121#0" expanded="false" />
+            <element signature="e#9178#9691#0" expanded="false" />
+            <element signature="e#9741#10758#0" expanded="false" />
+            <element signature="e#10798#10839#0" expanded="false" />
+            <element signature="e#11741#11932#0" expanded="false" />
+            <element signature="e#12141#12459#0" expanded="false" />
+            <element signature="e#12487#12678#0" expanded="false" />
+            <element signature="e#13108#13421#0" expanded="false" />
+            <element signature="e#16045#16598#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -715,7 +563,6 @@
           <folding>
             <element signature="e#108#114#1" expanded="true" />
             <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#3695#3701#1" expanded="true" />
             <element signature="e#4143#4149#1" expanded="true" />
@@ -778,7 +625,6 @@
           <folding>
             <element signature="e#108#114#1" expanded="true" />
             <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#3695#3701#1" expanded="true" />
             <element signature="e#4143#4149#1" expanded="true" />
@@ -847,7 +693,6 @@
           <folding>
             <element signature="e#108#114#1" expanded="true" />
             <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#3695#3701#1" expanded="true" />
             <element signature="e#4143#4149#1" expanded="true" />
@@ -915,7 +760,6 @@
           <folding>
             <element signature="e#108#114#1" expanded="true" />
             <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#3695#3701#1" expanded="true" />
             <element signature="e#4143#4149#1" expanded="true" />
@@ -995,26 +839,32 @@
         <state relative-caret-position="360">
           <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
           <folding>
-            <element signature="n#el-upload#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#ul#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#ul#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#3927#3948#0" expanded="true" />
-            <element signature="e#4199#4248#0" expanded="false" />
-            <element signature="e#4278#4442#0" expanded="false" />
-            <element signature="e#4542#4572#0" expanded="false" />
-            <element signature="e#5045#5187#0" expanded="false" />
-            <element signature="e#5444#5561#0" expanded="false" />
-            <element signature="e#5619#6108#0" expanded="false" />
-            <element signature="e#6160#6231#0" expanded="false" />
-            <element signature="e#6268#6508#0" expanded="false" />
-            <element signature="e#6559#6662#0" expanded="false" />
-            <element signature="e#6717#6767#0" expanded="false" />
-            <element signature="e#6816#6895#0" expanded="false" />
-            <element signature="e#7050#7563#0" expanded="false" />
-            <element signature="e#7620#7692#0" expanded="false" />
-            <element signature="e#8103#8416#0" expanded="false" />
-            <element signature="e#8441#10049#0" expanded="false" />
+            <element signature="e#4215#4236#0" expanded="true" />
+            <element signature="e#4515#4564#0" expanded="false" />
+            <element signature="e#4594#5154#0" expanded="false" />
+            <element signature="e#5254#5285#0" expanded="false" />
+            <element signature="e#5308#5669#0" expanded="false" />
+            <element signature="e#5726#6608#0" expanded="false" />
+            <element signature="e#6679#6999#0" expanded="false" />
+            <element signature="e#7047#7315#0" expanded="false" />
+            <element signature="e#7346#7463#0" expanded="false" />
+            <element signature="e#7521#7883#0" expanded="false" />
+            <element signature="e#7745#7832#0" expanded="false" />
+            <element signature="e#7942#8047#0" expanded="false" />
+            <element signature="e#8110#8193#0" expanded="false" />
+            <element signature="e#8230#8470#0" expanded="false" />
+            <element signature="e#8521#8695#0" expanded="false" />
+            <element signature="e#8750#8800#0" expanded="false" />
+            <element signature="e#9072#9121#0" expanded="false" />
+            <element signature="e#9178#9691#0" expanded="false" />
+            <element signature="e#9741#10758#0" expanded="false" />
+            <element signature="e#10798#10839#0" expanded="false" />
+            <element signature="e#11741#11932#0" expanded="false" />
+            <element signature="e#12141#12459#0" expanded="false" />
+            <element signature="e#12487#12678#0" expanded="false" />
+            <element signature="e#13108#13421#0" expanded="false" />
+            <element signature="e#16045#16598#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1114,14 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/js/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="29" column="3" lean-forward="false" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/home_header/home_header.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1134,20 +976,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/api/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="9" column="2" lean-forward="false" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        <state relative-caret-position="72">
+          <caret line="3" column="42" lean-forward="false" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/home_index/home_index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="29" column="22" lean-forward="false" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+          <folding>
+            <element signature="e#199#255#0" expanded="true" />
+            <marker date="1495173574000" expanded="true" signature="788:1115" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/js/store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="696">
+          <caret line="29" column="3" lean-forward="false" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/login_index/login_index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="260" column="30" lean-forward="false" selection-start-line="260" selection-start-column="30" selection-end-line="260" selection-end-column="30" />
+        <state relative-caret-position="162">
+          <caret line="49" column="46" lean-forward="false" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="46" />
           <folding>
             <element signature="e#108#114#1" expanded="true" />
             <element signature="n#el-carousel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#el-tab-pane#0;n#el-tabs#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#footer#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#3695#3701#1" expanded="true" />
             <element signature="e#4143#4149#1" expanded="true" />
@@ -1166,42 +1026,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/home_index/home_index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="29" column="22" lean-forward="true" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
-          <folding>
-            <element signature="e#199#255#0" expanded="true" />
-            <marker date="1495173574000" expanded="true" signature="788:1115" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/home_fileList/home_fileList.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1725">
-          <caret line="59" column="57" lean-forward="false" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
+        <state relative-caret-position="158">
+          <caret line="57" column="51" lean-forward="false" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="51" />
           <folding>
-            <element signature="n#el-upload#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#ul#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#ul#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#3927#3948#0" expanded="true" />
-            <element signature="e#4199#4248#0" expanded="false" />
-            <element signature="e#4278#4442#0" expanded="false" />
-            <element signature="e#4542#4572#0" expanded="false" />
-            <element signature="e#5045#5187#0" expanded="false" />
-            <element signature="e#5444#5561#0" expanded="false" />
-            <element signature="e#5619#6108#0" expanded="false" />
-            <element signature="e#6160#6231#0" expanded="false" />
-            <element signature="e#6268#6508#0" expanded="false" />
-            <element signature="e#6559#6662#0" expanded="false" />
-            <element signature="e#6717#6767#0" expanded="false" />
-            <element signature="e#6816#6895#0" expanded="false" />
-            <element signature="e#7050#7563#0" expanded="false" />
-            <element signature="e#7620#7692#0" expanded="false" />
-            <element signature="e#8103#8416#0" expanded="false" />
-            <element signature="e#8441#10049#0" expanded="false" />
+            <element signature="e#4215#4236#0" expanded="true" />
+            <element signature="e#4515#4564#0" expanded="false" />
+            <element signature="e#4594#5154#0" expanded="false" />
+            <element signature="e#5254#5285#0" expanded="false" />
+            <element signature="e#5308#5669#0" expanded="false" />
+            <element signature="e#5726#6608#0" expanded="false" />
+            <element signature="e#6679#6999#0" expanded="false" />
+            <element signature="e#7047#7315#0" expanded="false" />
+            <element signature="e#7346#7463#0" expanded="false" />
+            <element signature="e#7521#7883#0" expanded="false" />
+            <element signature="e#7745#7832#0" expanded="false" />
+            <element signature="e#7942#8047#0" expanded="false" />
+            <element signature="e#8110#8193#0" expanded="false" />
+            <element signature="e#8230#8470#0" expanded="false" />
+            <element signature="e#8521#8695#0" expanded="false" />
+            <element signature="e#8750#8800#0" expanded="false" />
+            <element signature="e#9072#9121#0" expanded="false" />
+            <element signature="e#9178#9691#0" expanded="false" />
+            <element signature="e#9741#10758#0" expanded="false" />
+            <element signature="e#10798#10839#0" expanded="false" />
+            <element signature="e#11741#11932#0" expanded="false" />
+            <element signature="e#12141#12459#0" expanded="false" />
+            <element signature="e#12487#12678#0" expanded="false" />
+            <element signature="e#13108#13421#0" expanded="false" />
+            <element signature="e#16045#16598#0" expanded="false" />
           </folding>
         </state>
       </provider>

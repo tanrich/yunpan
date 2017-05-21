@@ -1,6 +1,7 @@
 import axios from 'axios'
 // 'http://192.168.43.232:8080'
-let baseURL = 'http://192.168.1.160:8080'
+// 'http://192.168.1.160:8080'
+let baseURL = 'http://192.168.43.232:8080'
 const request = axios.create({
   baseURL: baseURL,
   withCredentials: true
@@ -25,5 +26,15 @@ export default {
   // 获取所有文件
   getAllFiles: (params) => request.get('/getallfiles', {params}),
   // 新建文件夹
-  newFolder: (params) => request.get('/newfolder', {params})
+  newFolder: (params) => request.get('/newfolder', {params}),
+  // 删除文件
+  deleteFile: (params) => request.get('/deletefile', {params}),
+  // 删除文件夹
+  deleteFolder: (params) => request.get('/deletefolder', {params}),
+  // 修改文件名
+  fileRename: (params) => request.get('/filerename', {params}),
+  // 修改文件夹名
+  folderRename: (params) => request.get('/folderrename', {params}),
+  // 下载文件
+  download: (params) => request.get('/download', {params})
 }
