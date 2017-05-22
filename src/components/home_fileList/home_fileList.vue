@@ -437,17 +437,9 @@
 
       // 新建文件夹
       newFolder () {
-        // 保存旧数组长度便于比较
+        // 保存旧数组长度便于比较是否创建成功
         let oldLength = this.filePackageContent.length
-        // 本地模拟创建一个文件夹
-        this.filePackageContent.push({
-          fileName: '5',
-          checked: true,
-          isRename: true,
-          kinds: 'folder'
-        })
-        // 为新创建的文件夹记录默认选中值
-        this.checkedIndex = this.filePackageContent.length - 1
+        // 新建文件夹请求
         API.newFolder(Object.assign({}, this.fileConfig, {folderName: '新建文件夹'}))
           .then(res => {
             res = res.data.data
@@ -462,6 +454,11 @@
               throw new Error('文件夹创建失败')
             }
           })
+          .then(() => {
+            // 为新创建的文件夹记录默认选中值
+            this.checkedIndex = this.filePackageContent.length - 1
+            this.renameState(true)
+          })
           .catch(err => {
             console.error(err)
             Message.error({
@@ -470,6 +467,13 @@
               duration: 2000
             })
           })
+        // 本地模拟创建一个文件夹
+//        this.filePackageContent.push({
+//          fileName: '新建文件夹',
+//          checked: true,
+//          isRename: true,
+//          kinds: 'folder'
+//        })
       },
 
       // 取消重命名
@@ -479,7 +483,7 @@
 
       // 改变重命名状态
       renameState (value) {
-        console.log(this.checkedIndex)
+        console.log('现在选中index序号为' + this.checkedIndex)
         if (this.checkedIndex !== '') {
           // Vue 不能检测到对象属性的添加或删除
           this.$set(this.filePackageContent[this.checkedIndex], 'isRename', value)
