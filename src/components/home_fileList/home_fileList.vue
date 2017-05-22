@@ -20,12 +20,12 @@
       </div>
       <div class="secondary_function" v-show="checkedIndex!==''" @mousedown.left.stop="selectFunction($event)">
         <el-button>分享<i class="el-icon-share el-icon--right"></i></el-button>
-        <el-button>下载<a @click.prevent ref="download" :href="downloadURL" hidden></a><i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
+        <el-button>下载<i class="el-icon-arrow-down el-icon--right"></i></el-button>
         <el-button>删除<i class="el-icon-delete el-icon--right"></i></el-button>
         <el-button>重命名<i class="el-icon-edit el-icon--right"></i></el-button>
         <el-button>复制到<i class="el-icon-document el-icon--right"></i></el-button>
         <el-button>更多<i class="el-icon-more el-icon--right"></i></el-button>
+        <a target="_self" ref="download" :href="downloadURL" hidden></a>
       </div>
       <div class="search">
         <el-input
@@ -282,6 +282,11 @@
 
       // 文件选中事件 checkbox触发
       folderSelect (item, index) {
+        // Vue 不能检测到对象属性的添加或删除
+        // 最开始不存在item.checked ，直接用if判断无法区分是undefined还是false
+        if (typeof item.checked === 'undefined') {
+          this.$set(this.filePackageContent[index], 'checked', true)
+        }
         item.checked ? this.checkedIndex = index : this.checkedIndex = ''
       },
 
@@ -333,7 +338,7 @@
       // 选择右键菜单功能
       selectFunction (event) {
         let selection = event.target.innerText
-
+        // console.log(selection)
         switch (selection) {
           case '打开':
             console.log('打开')
