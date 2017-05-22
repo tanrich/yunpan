@@ -29,7 +29,7 @@
           res = res.data
           if (res.status === 0) {
             console.log('未登录')
-            this.$router.push({path: '/'})
+            // this.$router.push({path: '/'})
           } else {
             console.log('已登录')
             this.username = res.username

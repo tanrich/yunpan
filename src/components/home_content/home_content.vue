@@ -40,6 +40,7 @@
   .content
     background #eff4f8
     position relative
+    overflow hidden
     flex 1
     display flex
 </style>

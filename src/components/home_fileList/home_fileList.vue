@@ -20,7 +20,8 @@
       </div>
       <div class="secondary_function" v-show="checkedIndex!==''" @mousedown.left.stop="selectFunction($event)">
         <el-button>分享<i class="el-icon-share el-icon--right"></i></el-button>
-        <el-button>下载<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+        <el-button>下载<a @click.prevent ref="download" :href="downloadURL" hidden></a><i class="el-icon-arrow-down el-icon--right"></i>
+        </el-button>
         <el-button>删除<i class="el-icon-delete el-icon--right"></i></el-button>
         <el-button>重命名<i class="el-icon-edit el-icon--right"></i></el-button>
         <el-button>复制到<i class="el-icon-document el-icon--right"></i></el-button>
@@ -43,11 +44,14 @@
           <div>{{fileConfig.path}}</div>
           <div>已全部加载,共{{filePackageContent.length}}个</div>
         </div>
-        <div class="file_package_title_select" @mousedown.left.stop>
+        <div class="file_package_title_select" v-show="this.filePackageContent.length" @mousedown.left.stop>
           <el-checkbox v-model="checkedAll" @change="setCheckedAll(checkedAll)">全选</el-checkbox>
         </div>
       </div>
       <div class="file_package_content">
+        <div class="empty_file" v-show="!this.filePackageContent.length">
+          <p>这里空空如也，快去上传文件吧！</p>
+        </div>
         <ul>
           <li v-for="(item,index) in filePackageContent"
               class="file_package_content_item overFile"
@@ -99,13 +103,14 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import { Button, Upload, Checkbox, Message } from 'element-ui'
+  import { Button, Upload, Checkbox, Message, Loading } from 'element-ui'
   import axios from 'axios'
   import API from '../../api'
   Vue.use(Button)
   Vue.use(Upload)
   Vue.use(Checkbox)
   Vue.use(Message)
+  Vue.use(Loading)
   export default {
     name: '',
     data () {
@@ -161,7 +166,9 @@
             typeTwo: ['重新加载页面', '新建文件夹']
           }
         },
-        checkedIndex: ''
+        checkedIndex: '',
+        waitDataOptions: '',
+        downloadURL: ''
       }
     },
     created () {
@@ -173,19 +180,26 @@
         left: this.$refs['file_list'].getBoundingClientRect().left,
         top: this.$refs['file_list'].getBoundingClientRect().top
       }
-
+      this.waitDataOptions = {
+        target: '.file_package_content',
+        loading: false,
+        fullscreen: false
+//        text: '老板等等，我在拼命加载中…'
+      }
       // 打开页面自动请求所有文件
       this.initFilePackageContent()
     },
     methods: {
       // 初始化页面数据
       initFilePackageContent () {
+        let loading = Loading.service(this.waitDataOptions)
         this.fileConfig.path = '/'
         API.getAllFiles(this.fileConfig)
           .then(res => {
             res = res.data.data
             this.filePackageContent = res
           })
+          .then(() => loading.close())
           .catch(err => console.error(err))
       },
 
@@ -246,22 +260,6 @@
         }
       },
 
-      // 刷新
-      refresh () {
-        API.getAllFiles(this.fileConfig)
-          .then(res => {
-            res = res.data.data
-            this.filePackageContent = res
-          })
-          .catch(err => console.error(err))
-      },
-
-      // 搜索
-      search () {
-        clearTimeout(this.searchWait)
-        this.searchWait = setTimeout(() => console.log('ajax中'), 300)
-      },
-
       // 左键点击文件夹事件
       folderLeftClick (item, event) {
         console.log('进入')
@@ -285,44 +283,6 @@
       // 文件选中事件 checkbox触发
       folderSelect (item, index) {
         item.checked ? this.checkedIndex = index : this.checkedIndex = ''
-      },
-
-      // 新建文件夹
-      newFolder () {
-        // 保存旧数组长度便于比较
-        let oldLength = this.filePackageContent.length
-        // 本地模拟创建一个文件夹
-        this.filePackageContent.push({
-          fileName: '5',
-          checked: true,
-          isRename: true,
-          kinds: 'folder'
-        })
-        // 为新创建的文件夹记录默认选中值
-        this.checkedIndex = this.filePackageContent.length - 1
-        API.newFolder(Object.assign({}, this.fileConfig, {folderName: '新建文件夹'}))
-          .then(res => {
-            res = res.data.data
-            console.log(res.length, oldLength)
-            if (res.length !== oldLength) {
-              this.filePackageContent = res
-              Message.success({
-                showClose: true,
-                message: '文件夹创建成功！',
-                duration: 2000
-              })
-            } else {
-              throw new Error('文件夹创建失败')
-            }
-          })
-          .catch(err => {
-            console.error(err)
-            Message.error({
-              showClose: true,
-              message: '文件夹创建失败！',
-              duration: 2000
-            })
-          })
       },
 
       // 改变全部文件选中状态
@@ -380,6 +340,7 @@
             break
           case '下载':
             console.log('下载')
+            this.download()
             break
           case '分享':
             console.log('分享')
@@ -438,6 +399,69 @@
             Message.error({
               showClose: true,
               message: '删除失败！',
+              duration: 2000
+            })
+          })
+      },
+
+      // 下载文件
+      download () {
+        this.downloadURL = this.baseURL + '/download?id=' + this.filePackageContent[this.checkedIndex].id
+        this.$nextTick(() => {
+          this.$refs['download'].click()
+        })
+      },
+
+      // 刷新
+      refresh () {
+        let loading = Loading.service(this.waitDataOptions)
+        API.getAllFiles(this.fileConfig)
+          .then(res => {
+            res = res.data.data
+            this.filePackageContent = res
+          })
+          .then(() => loading.close())
+          .catch(err => console.error(err))
+      },
+
+      // 搜索
+      search () {
+        clearTimeout(this.searchWait)
+        this.searchWait = setTimeout(() => console.log('ajax中'), 300)
+      },
+
+      // 新建文件夹
+      newFolder () {
+        // 保存旧数组长度便于比较
+        let oldLength = this.filePackageContent.length
+        // 本地模拟创建一个文件夹
+        this.filePackageContent.push({
+          fileName: '5',
+          checked: true,
+          isRename: true,
+          kinds: 'folder'
+        })
+        // 为新创建的文件夹记录默认选中值
+        this.checkedIndex = this.filePackageContent.length - 1
+        API.newFolder(Object.assign({}, this.fileConfig, {folderName: '新建文件夹'}))
+          .then(res => {
+            res = res.data.data
+            if (res.length !== oldLength) {
+              this.filePackageContent = res
+              Message.success({
+                showClose: true,
+                message: '文件夹创建成功！',
+                duration: 2000
+              })
+            } else {
+              throw new Error('文件夹创建失败')
+            }
+          })
+          .catch(err => {
+            console.error(err)
+            Message.error({
+              showClose: true,
+              message: '文件夹创建失败！',
               duration: 2000
             })
           })
@@ -564,7 +588,26 @@
         .file_package_title_select
           padding 5px 0
       .file_package_content
+        position relative
+        min-height 50%
         padding 5px 0
+        box-sizing border-box
+        .empty_file
+          position absolute
+          left 50%
+          top 50%
+          width 488px
+          background url('emptyfile.png') no-repeat scroll center 0 transparent
+          box-sizing border-box
+          padding-top 146px
+          margin -108px 0 0 -244px
+          text-align center
+          p
+            font-size 16px
+            line-height 30px
+            color #424e67
+            margin 20px 0
+            font-weight 300
         .file_package_content_item
           display inline-block
           width 120px;
