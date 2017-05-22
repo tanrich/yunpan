@@ -41,7 +41,11 @@
     <div class="file_package">
       <div class="file_package_title">
         <div class="file_package_title_info">
-          <div>{{fileConfig.path}}</div>
+          <div>
+            <ul @click.stop="pathJump($event)">
+              <li v-for="item in pathList" class="pathItem"><span>/{{item}}</span></li>
+            </ul>
+          </div>
           <div>已全部加载,共{{filePackageContent.length}}个</div>
         </div>
         <div class="file_package_title_select" v-show="this.filePackageContent.length" @mousedown.left.stop>
@@ -189,6 +193,13 @@
       // 打开页面自动请求所有文件
       this.initFilePackageContent()
     },
+    computed: {
+      pathList () {
+        let tmpPath = this.fileConfig.path.split('/')
+        tmpPath.splice(0, 1, '所有文件')
+        return tmpPath
+      }
+    },
     methods: {
       // 初始化页面数据
       initFilePackageContent () {
@@ -293,6 +304,11 @@
       // 改变全部文件选中状态
       setCheckedAll (value) {
         this.filePackageContent.forEach((item) => {
+          // Vue监测机制的问题
+          if (typeof item.checked === 'undefined') {
+            this.$set(item, 'checked', value)
+            return
+          }
           if (item.checked === value) {
             return
           }
@@ -378,6 +394,7 @@
             break
           case '新建文件夹':
             console.log('新建文件夹')
+            this.newFolder()
             break
         }
         this.hideRightContextMenu()
@@ -385,6 +402,7 @@
 
       // 删除文件操作
       delete () {
+        Message.closeAll()
         API.delete({id: this.filePackageContent[this.checkedIndex].id})
           .then(res => {
             res = res.data
@@ -440,6 +458,7 @@
         // 保存旧数组长度便于比较是否创建成功
         let oldLength = this.filePackageContent.length
         // 新建文件夹请求
+        Message.closeAll()
         API.newFolder(Object.assign({}, this.fileConfig, {folderName: '新建文件夹'}))
           .then(res => {
             res = res.data.data
@@ -495,6 +514,7 @@
         let tmpName = item.fileName
         item.fileName = item.newName
         this.renameState(false)
+        Message.closeAll()
         if (item.kinds === 'folder') {
           // 文件夹名字修改
           API.folderRename({
@@ -548,6 +568,18 @@
               })
             })
         }
+      },
+
+      // 路径跳转
+      pathJump (event) {
+        let path = event.target.innerText
+        if (path === '/所有文件') {
+          this.fileConfig.path = '/'
+        } else {
+          let index = this.fileConfig.path.indexOf(path)
+          this.fileConfig.path = this.fileConfig.path.substr(0, index) + path
+        }
+        this.refresh()
       }
     }
   }
@@ -594,6 +626,9 @@
             line-height 12px
           div + div
             float right
+          .pathItem
+            display inline-block
+            cursor pointer
         .file_package_title_select
           padding 5px 0
       .file_package_content
