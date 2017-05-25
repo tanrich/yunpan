@@ -3,21 +3,27 @@
        ref="file_list"
        @mousedown.left.stop="FileListLeftClick($event)"
        @mousedown.right.stop="FileListRightClick($event)">
+    <!--工具条-->
     <div class="tool_list">
+      <!--一级工具栏-->
       <div class="major_function">
         <el-upload class="upload"
                    :action="baseURL+'/upload'"
                    :data="fileConfig"
                    :show-file-list="false"
+                   :file-list="fileList"
                    :with-credentials="true"
+                   :before-upload="beforeUpload"
                    :on-change="uploadStatus"
+                   :on-progress="uploading"
         >
           <el-button type="primary">
             上传 <i class="el-icon-upload el-icon--right"></i>
           </el-button>
         </el-upload>
-        <el-button @click="newFolder">新建文件夹 <i class="el-icon-plus el-icon--right"></i></el-button>
+        <el-button class="newFolder" @click="newFolder">新建文件夹 <i class="el-icon-plus el-icon--right"></i></el-button>
       </div>
+      <!--二级工具栏-->
       <div class="secondary_function" v-show="checkedIndex!==''" @mousedown.left.stop="selectFunction($event)">
         <el-button>分享<i class="el-icon-share el-icon--right"></i></el-button>
         <el-button>下载<i class="el-icon-arrow-down el-icon--right"></i></el-button>
@@ -25,8 +31,9 @@
         <el-button>重命名<i class="el-icon-edit el-icon--right"></i></el-button>
         <el-button>复制到<i class="el-icon-document el-icon--right"></i></el-button>
         <el-button>更多<i class="el-icon-more el-icon--right"></i></el-button>
-        <a target="_self" ref="download" :href="downloadURL" hidden></a>
+        <a target="_self" ref="download" :href="downloadURL" download="123" hidden></a>
       </div>
+      <!--搜索-->
       <div class="search">
         <el-input
           placeholder="请输入要查找的内容"
@@ -38,12 +45,14 @@
         </el-input>
       </div>
     </div>
+    <!--文件区域-->
     <div class="file_package">
+      <!--路径以及加载总数-->
       <div class="file_package_title">
         <div class="file_package_title_info">
           <div>
             <ul @click.stop="pathJump($event)">
-              <li v-for="item in pathList" class="pathItem"><span>/{{item}}</span></li>
+              <li v-for="(item,index) in pathList" :key="index" class="pathItem"><span>/{{item}}</span></li>
             </ul>
           </div>
           <div>已全部加载,共{{filePackageContent.length}}个</div>
@@ -52,6 +61,7 @@
           <el-checkbox v-model="checkedAll" @change="setCheckedAll(checkedAll)">全选</el-checkbox>
         </div>
       </div>
+      <!--文件列表-->
       <div class="file_package_content">
         <div class="empty_file" v-show="!this.filePackageContent.length">
           <p>这里空空如也，快去上传文件吧！</p>
@@ -64,7 +74,7 @@
               @mousedown.left.stop="folderLeftClick(item,$event)"
               @mousedown.right="folderRightClick(item, index)"
           >
-            <div class="type overFile" :class="initKinds(item)"></div>
+            <div class="type overFile" :class="initFileKinds(item)"></div>
             <div class="name overFile" v-show="!item.isRename">{{item.fileName}}</div>
             <div class="rename" v-show="item.isRename">
               <input type="text"
@@ -83,31 +93,83 @@
         </ul>
       </div>
     </div>
+    <!--右键菜单-->
     <div class="context_menu"
          ref="context_menu"
          v-show="contextMenu.status"
     >
       <ul v-show="contextMenu.overFileStatus" @mousedown.left.stop="selectFunction($event)">
-        <li v-for="list in contextMenu.overFile.typeOne" class="context_menu_list">{{list}}</li>
+        <li v-for="(list,index) in contextMenu.overFile.typeOne" :key="index" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overFile.typeTwo" class="context_menu_list">{{list}}</li>
+        <li v-for="(list,index) in contextMenu.overFile.typeTwo" :key="index" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
         <li v-for="list in contextMenu.overFile.typeThree" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overFile.typeFour" class="context_menu_list">{{list}}</li>
+        <li v-for="(list,index) in contextMenu.overFile.typeFour" :key="index" class="context_menu_list">{{list}}</li>
       </ul>
       <ul v-show="!contextMenu.overFileStatus" @mousedown.left.stop="selectFunction($event)">
-        <li v-for="list in contextMenu.overSpace.typeOne" class="context_menu_list">{{list}}</li>
+        <li v-for="(list,index) in contextMenu.overSpace.typeOne" :key="index" class="context_menu_list">{{list}}</li>
         <li class="separate"></li>
-        <li v-for="list in contextMenu.overSpace.typeTwo" class="context_menu_list">{{list}}</li>
+        <li v-for="(list,index) in contextMenu.overSpace.typeTwo" :key="index" class="context_menu_list">{{list}}</li>
       </ul>
+    </div>
+    <!--上传状态表-->
+    <div class="upload_progress" v-show="uPshow">
+      <h3 class="header">
+        <div class="title">上传文件</div>
+        <div class="control">
+          <i class="el-icon-minus" @click.stop="setInfoShow(false)" v-show="infoShow"></i>
+          <i class="el-icon-plus" @click.stop="setInfoShow(true)" v-show="!infoShow"></i>
+          <i class="el-icon-close" @click.stop="closeuPshow"></i>
+        </div>
+      </h3>
+      <div class="tips" v-show="tipsShow">
+        <div class="title">有{{fileList.length}}个文件上传成功</div>
+        <div class="caution" v-popover:tipOne>
+          <span><i class="el-icon-warning"></i>&nbsp;警告</span>
+          <i class="el-icon-close" @click.stop="closeTipsShow"></i>
+          <el-popover
+            ref="tipOne"
+            placement="left-end"
+            width="200"
+            trigger="hover"
+            content="严禁利用重邮网盘上传、传播暴力恐怖、色情违法及其他违法信息，一经发现将严格按照相关法律法规处理。">
+          </el-popover>
+        </div>
+      </div>
+      <transition name="fade">
+        <div class="info" v-show="infoShow">
+          <ul>
+            <li class="info_item info_title">
+              <el-row>
+                <el-col :span="12">文件(夹)名</el-col>
+                <el-col :span="4">大小</el-col>
+                <el-col :span="4">上传目录</el-col>
+                <el-col :span="4">状态</el-col>
+              </el-row>
+            </li>
+            <li v-for="(item,index) in fileList" :key="index" class="info_item">
+              <el-row>
+                <el-col :span="12" class="name">{{item.name}}</el-col>
+                <el-col :span="4">{{item.size | itemSize}}</el-col>
+                <el-col :span="4">{{fileConfig.path}}</el-col>
+                <el-col :span="4">
+                  <el-progress :percentage="Number(item.percentage.toFixed(0))" class="progress_ratio"></el-progress>
+                  <i class="el-icon-circle-check" v-show="false"></i>
+                  <i class="el-icon-circle-close" v-show="false"></i>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import { Button, Upload, Checkbox, Message, Loading } from 'element-ui'
+  import { Button, Upload, Checkbox, Message, Loading, Popover, Row, Col, Progress } from 'element-ui'
   import axios from 'axios'
   import API from '../../api'
   Vue.use(Button)
@@ -115,40 +177,62 @@
   Vue.use(Checkbox)
   Vue.use(Message)
   Vue.use(Loading)
+  Vue.use(Popover)
+  Vue.use(Row)
+  Vue.use(Col)
+  Vue.use(Progress)
   export default {
     name: '',
     data () {
       return {
         baseURL: API.baseURL,
-        fileList: {
+        selfTemplate: {
           left: '',
           top: ''
         },
         filePackageContent: [
-          {
-            fileName: '1',
-            checked: false,
-            isRename: false,
-            kinds: 'folder'
-          },
-          {
-            fileName: '2',
-            checked: false,
-            isRename: false,
-            kinds: 'folder'
-          },
-          {
-            fileName: '3',
-            checked: false,
-            isRename: false,
-            kinds: 'document'
-          },
-          {
-            fileName: '4',
-            checked: false,
-            isRename: false,
-            kinds: 'others'
-          }
+//          {
+//            fileName: '1',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'folder'
+//          },
+//          {
+//            fileName: '2',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'picture'
+//          },
+//          {
+//            fileName: '3',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'document'
+//          },
+//          {
+//            fileName: '4',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'others'
+//          },
+//          {
+//            fileName: '5',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'gzip'
+//          },
+//          {
+//            fileName: '6',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'music'
+//          },
+//          {
+//            fileName: '7',
+//            checked: false,
+//            isRename: false,
+//            kinds: 'video'
+//          }
         ],
         checkedAll: false,
         searchContent: '',
@@ -172,15 +256,19 @@
         },
         checkedIndex: '',
         waitDataOptions: '',
-        downloadURL: ''
+        downloadURL: '',
+        fileList: [],
+        tipsShow: true,
+        infoShow: true,
+        uPshow: false
       }
     },
     created () {
       Message.closeAll()
     },
     mounted () {
-      // 获取fileList对于网页的位置，方便以后使用
-      this.fileList = {
+      // 获取selfTemplate对于网页的位置，方便以后使用
+      this.selfTemplate = {
         left: this.$refs['file_list'].getBoundingClientRect().left,
         top: this.$refs['file_list'].getBoundingClientRect().top
       }
@@ -191,7 +279,16 @@
 //        text: '老板等等，我在拼命加载中…'
       }
       // 打开页面自动请求所有文件
-      this.initFilePackageContent()
+      this.initFilePackageContent('allFiles')
+    },
+    filters: {
+      itemSize (size) {
+        if (size / 1024 / 1024 < 1) {
+          return (size / 1024).toFixed(0) + 'Kb'
+        } else {
+          return (size / 1024 / 1024).toFixed(2) + 'Mb'
+        }
+      }
     },
     computed: {
       pathList () {
@@ -202,20 +299,30 @@
     },
     methods: {
       // 初始化页面数据
-      initFilePackageContent () {
+      initFilePackageContent (kind) {
         let loading = Loading.service(this.waitDataOptions)
         this.fileConfig.path = '/'
-        API.getAllFiles(this.fileConfig)
-          .then(res => {
-            res = res.data.data
-            this.filePackageContent = res
-          })
-          .then(() => loading.close())
-          .catch(err => console.error(err))
+        if (kind === 'allFiles') {
+          API.getAllFiles(this.fileConfig)
+            .then(res => {
+              res = res.data.data
+              this.filePackageContent = res
+            })
+            .then(() => loading.close())
+            .catch(err => console.error(err))
+        } else {
+          API.getKinds({kinds: kind})
+            .then(res => {
+              res = res.data.data
+              this.filePackageContent = res
+            })
+            .then(() => loading.close())
+            .catch(err => console.error(err))
+        }
       },
 
       // 初始化file类别，分配对应class图标
-      initKinds (item) {
+      initFileKinds (item) {
         switch (item.kinds) {
           case 'folder':
             return {
@@ -224,6 +331,22 @@
           case 'document':
             return {
               'document': true
+            }
+          case 'music':
+            return {
+              'music': true
+            }
+          case 'gzip':
+            return {
+              'gzip': true
+            }
+          case 'picture':
+            return {
+              'picture': true
+            }
+          case 'video':
+            return {
+              'video': true
             }
           case 'others':
             return {
@@ -246,8 +369,28 @@
         }
       },
 
-      // 上传过程调用函数
-      uploadStatus (file) {
+      // 上传之前的函数检查
+      beforeUpload (file) {
+        const isLt50M = file.size / 1024 / 1024 < 50
+        if (!isLt50M) {
+          Message.error({
+            showClose: true,
+            message: '上传文件大小超过50Mb了~',
+            duration: 2000
+          })
+          return isLt50M
+        }
+      },
+
+      // 上传过程中调用函数
+      uploading (event, file, fileList) {
+        this.fileList = fileList
+      },
+
+      // 上传状态调用函数
+      uploadStatus (file, fileList) {
+        this.fileList = fileList
+        this.uPshow = true
         Message.closeAll()
         if (file.status === 'ready') {
           Message.info({
@@ -274,7 +417,9 @@
       // 左键点击文件夹事件
       folderLeftClick (item, event) {
         console.log('进入')
-
+        if (item.kinds !== 'folder') {
+          return false
+        }
         this.initFileConfig(item.fileName)
         API.getAllFiles(this.fileConfig)
           .then(res => {
@@ -339,8 +484,8 @@
       showRightContextMenu (event) {
         let classList = event.target.classList
         this.contextMenu.status = true
-        this.$refs['context_menu'].style.top = event.pageY - this.fileList.top + 'px'
-        this.$refs['context_menu'].style.left = event.pageX - this.fileList.left + 'px'
+        this.$refs['context_menu'].style.top = event.pageY - this.selfTemplate.top + 'px'
+        this.$refs['context_menu'].style.left = event.pageX - this.selfTemplate.left + 'px'
         // 判断点击区域class是否包含overFile
         for (let k of classList) {
           if (k === 'overFile') {
@@ -354,7 +499,6 @@
       // 选择右键菜单功能
       selectFunction (event) {
         let selection = event.target.innerText
-        // console.log(selection)
         switch (selection) {
           case '打开':
             console.log('打开')
@@ -502,7 +646,7 @@
 
       // 改变重命名状态
       renameState (value) {
-        console.log('现在选中index序号为' + this.checkedIndex)
+        // console.log('现在选中index序号为' + this.checkedIndex)
         if (this.checkedIndex !== '') {
           // Vue 不能检测到对象属性的添加或删除
           this.$set(this.filePackageContent[this.checkedIndex], 'isRename', value)
@@ -580,11 +724,26 @@
           this.fileConfig.path = this.fileConfig.path.substr(0, index) + path
         }
         this.refresh()
+      },
+
+      // 关闭tips
+      closeTipsShow () {
+        this.tipsShow = false
+      },
+
+      // 下载详情是否展开
+      setInfoShow (value) {
+        this.infoShow = value
+      },
+
+      // 关闭下载查看
+      closeuPshow () {
+        this.uPshow = false
       }
     }
   }
 </script>
-<style lang="stylus" rel="stylesheet/stylus" type="text/stylus" scoped>
+<style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
   .file_list
     margin-right 10px
     padding 15px
@@ -606,6 +765,12 @@
         .upload
           display inline-block
           margin-right 10px
+          position relative
+          .el-upload-list
+            position absolute
+        .newFolder
+          display inline-block
+          vertical-align top
       .secondary_function
         margin-left 20px
         button
@@ -614,6 +779,8 @@
         float right
     .file_package
       flex 1
+      display flex
+      flex-direction column
       .file_package_title
         border-bottom 1px solid #f2f6fd
         .file_package_title_info
@@ -632,10 +799,12 @@
         .file_package_title_select
           padding 5px 0
       .file_package_content
+        flex 1
         position relative
         min-height 50%
         padding 5px 0
         box-sizing border-box
+        overflow-y auto
         .empty_file
           position absolute
           left 50%
@@ -683,6 +852,14 @@
               background url("./document.png") center no-repeat
             &.others
               background url("./others.png") center no-repeat
+            &.picture
+              background url("picture.gif") center no-repeat
+            &.gzip
+              background url("./gzip.png") center no-repeat
+            &.music
+              background url("./music.png") center no-repeat
+            &.video
+              background url("./video.png") center no-repeat
           .name
             font-size 14px
             text-align center
@@ -735,6 +912,7 @@
       padding 2px 0
       background #fff
       cursor pointer
+      z-index 100
       .context_menu_list
         width 145px
         height 23px
@@ -751,4 +929,89 @@
         height 1px
         background #e9e9e9
         margin 5px 0
+    .upload_progress
+      position fixed
+      display flex
+      flex-direction column
+      bottom 0
+      top auto
+      left auto
+      right 30px
+      width 633px
+      background #fff
+      box-sizing border-box
+      border 1px solid #e2e2e2
+      border-top-left-radius 7px
+      border-top-right-radius 7px
+      box-shadow 0 0 10px #ccc
+      margin-bottom -2px
+      z-index 99
+      .header
+        line-height 44px
+        overflow hidden
+        padding 0 15px 0 13px
+        .title, .control
+          display inline-block
+          font-size 14px
+          color #424e67
+        .title
+          float left
+          font-weight 400
+        .control
+          float right
+          font-size 12px
+          i
+            margin-left 10px
+            font-weight 600
+      .tips
+        line-height 33px
+        background #62a3ff
+        overflow hidden
+        padding 0 10px 0 13px
+        .title, .caution
+          display inline-block
+          font-size 12px
+          font-weight 500
+          color #fff
+        .title
+          float left
+        .caution
+          float right
+          cursor pointer
+          .el-icon-close
+            transform scale(0.7)
+            margin-left 5px
+      .info
+        flex 1
+        overflow auto
+        &.fade-enter-active, &.fade-leave-active {
+          transition: all .2s
+        }
+        &.fade-enter, &.fade-leave-active {
+          transform scale(1, 0)
+        }
+        .info_item
+          padding 0 13px
+          line-height 50px
+          border-bottom 1px solid #f2f6fd
+          box-sizing border-box
+          font-size 12px
+          overflow hidden
+          .name
+            padding 0 20px 0 0
+            overflow hidden
+            white-space: nowrap
+            text-overflow: ellipsis
+          .el-progress__text
+            font-size 12px !important
+          .progress_ratio
+            margin-top 18px
+          .el-icon-circle-check
+            color #5cd992
+          .el-icon-circle-close
+            color #f8645c
+        .info_title
+          line-height 33px
+          border-top 1px solid #f2f6fd
+          box-sizing border-box
 </style>

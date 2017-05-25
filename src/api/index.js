@@ -1,7 +1,10 @@
 import axios from 'axios'
 // 'http://192.168.43.232:8080'
 // 'http://192.168.1.160:8080'
-let baseURL = 'http://192.168.1.160:8080'
+// 'http://172.33.11.50:8080'
+// 'http://39.108.105.138:8080/yunpan'
+// 'http://192.168.155.6:8080'
+let baseURL = 'http://192.168.43.232:8080'
 const request = axios.create({
   baseURL: baseURL,
   withCredentials: true
@@ -34,5 +37,9 @@ export default {
   // 修改文件夹名
   folderRename: (params) => request.get('/folderrename', {params}),
   // 下载文件
-  download: (params) => request.get('/download', {params})
+  download: (params) => request.get('/download', {params}),
+  // 获取使用空间
+  getRoomSpace: (params) => request.get('/getroomspace', {params}),
+  // 分类加载
+  getKinds: (params) => request.get('getkinds', {params})
 }

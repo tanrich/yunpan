@@ -12,7 +12,7 @@
       </el-row>
     </header>
     <div class="banner">
-      <el-carousel speed="5000" trigger="click" height="550px" arrow="never">
+      <el-carousel :interval="5000" trigger="click" height="550px" arrow="never">
         <el-carousel-item>
           <div class="banner_bg banner_bg1"></div>
         </el-carousel-item>
@@ -163,7 +163,7 @@
                 callback()
               }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
         }, 0)
       }
       let vRPassword = (rule, value, callback) => {
@@ -200,12 +200,12 @@
             .then(res => {
               res = res.data
               if (res.status === 0) {
-                callback(new Error('验证码错误'))
+                return callback(new Error('验证码错误'))
               } else {
                 callback()
               }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
         }, 300)
       }
       return {
@@ -233,7 +233,8 @@
             {validator: vRConfirmPassword, trigger: 'blur'}
           ],
           r_checkCode: [
-            {validator: vCheckCode, trigger: ['change', 'blur']}
+            {validator: vCheckCode, trigger: 'blur'},
+            {validator: vCheckCode, trigger: 'change'}
           ]
         },
         l_rules: {
@@ -244,7 +245,8 @@
             {validator: vLPassword, trigger: 'blur'}
           ],
           l_checkCode: [
-            {validator: vCheckCode, trigger: ['change', 'blur']}
+            {validator: vCheckCode, trigger: 'blur'},
+            {validator: vCheckCode, trigger: 'change'}
           ]
         }
       }
@@ -254,7 +256,8 @@
     },
     methods: {
       login () {
-        this.$refs.l_form.validate(res => {
+        console.log('登陆验证中')
+        this.$refs['l_form'].validate(res => {
           if (res) {
             API.login(this.form)
               .then(res => {
@@ -279,7 +282,7 @@
                 }
               })
               .catch(err => {
-                console.err(err)
+                console.error(err)
                 Message.error({
                   showClose: true,
                   message: '网络发生错误！',
@@ -308,7 +311,7 @@
                 }
               })
               .catch(err => {
-                console.err(err)
+                console.error(err)
                 Message.error({
                   showClose: true,
                   message: '注册失败！',

@@ -23,19 +23,18 @@
       this.$refs['home_index'].oncontextmenu = function () {
         return false
       }
-      // console.log(getLocalStorage(false))
       API.vCheckLogin()
         .then(res => {
           res = res.data
           if (res.status === 0) {
-            console.log('未登录')
-            // this.$router.push({path: '/'})
+            console.error('未登录')
+            this.$router.push({path: '/'})
           } else {
             console.log('已登录')
             this.username = res.username
           }
         })
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
     },
     components: {
       VHomeHeader,
