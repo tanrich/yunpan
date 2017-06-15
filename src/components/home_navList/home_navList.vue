@@ -8,9 +8,10 @@
       <el-menu-item index="5" value="gzip"><i class="el-icon-message" value="gzip"></i>压缩包</el-menu-item>
       <el-menu-item index="6" value="music"><i class="el-icon-star-on" value="music"></i>音乐</el-menu-item>
       <el-menu-item index="7" value="others"><i class="el-icon-more" value="others"></i>其他</el-menu-item>
+      <el-menu-item index="8" value="allShare"><i class="el-icon-share" value="allShare"></i>已分享文件</el-menu-item>
     </el-menu>
     <div class="progress" @mousedown.left.stop>
-      <el-progress type="circle" :percentage="roomConfig.usedRatio"></el-progress>
+      <el-progress type="circle" :width="110" :percentage="roomConfig.usedRatio"></el-progress>
       <p>{{roomConfig.usedSpace}}MB / {{roomConfig.allSpace}}MB</p>
     </div>
   </div>
@@ -63,15 +64,15 @@
       height 100%
       margin-top 10px
       background #eff4f8
-      padding-bottom 200px
+      padding-bottom 170px
       box-sizing border-box
       .is-active
         background rgba(0, 0, 0, .05) !important
     .progress
       position relative
-      margin-top -180px
+      margin-top -160px
       p
         line-height 16px
-        font-size 14px
+        font-size 12px
         margin-top 7px
 </style>

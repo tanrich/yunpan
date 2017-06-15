@@ -276,7 +276,7 @@
                     message: '登陆成功！',
                     duration: 2000
                   })
-                  this.$router.push({path: '/home'})
+                  this.$router.push({name: 'home', params: {path: 'allFiles'}})
                 } else {
                   throw new Error('登陆失败')
                 }
@@ -318,6 +318,8 @@
                   duration: 2000
                 })
               })
+          } else {
+            return false
           }
         })
       },

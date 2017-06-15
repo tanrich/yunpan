@@ -4,10 +4,11 @@ import axios from 'axios'
 // 'http://172.33.11.50:8080'
 // 'http://39.108.105.138:8080/yunpan'
 // 'http://192.168.155.6:8080'
-let baseURL = 'http://192.168.43.232:8080'
+let baseURL = 'http://192.168.155.8:8080'
 const request = axios.create({
   baseURL: baseURL,
-  withCredentials: true
+  withCredentials: true,
+  timeout: 2000
 })
 
 export default {
@@ -41,5 +42,13 @@ export default {
   // 获取使用空间
   getRoomSpace: (params) => request.get('/getroomspace', {params}),
   // 分类加载
-  getKinds: (params) => request.get('getkinds', {params})
+  getKinds: (params) => request.get('/getkinds', {params}),
+  // 查询
+  query: (params) => request.get('/query', {params}),
+  // 获取分享列表
+  getAllShare: () => request.get('/getallshare'),
+  // 获取分享文件信息
+  getShare: (params) => request.get('/share', {params}),
+  // 生成分享文件
+  createShare: (params) => request.get('/createshare', {params})
 }

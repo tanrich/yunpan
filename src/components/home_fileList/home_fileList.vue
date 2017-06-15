@@ -1,10 +1,11 @@
 <template>
   <div class="file_list"
+       :class="{'share':shareListShow}"
        ref="file_list"
        @mousedown.left.stop="FileListLeftClick($event)"
        @mousedown.right.stop="FileListRightClick($event)">
     <!--工具条-->
-    <div class="tool_list">
+    <div class="tool_list" v-show="!shareListShow">
       <!--一级工具栏-->
       <div class="major_function">
         <el-upload class="upload"
@@ -46,7 +47,7 @@
       </div>
     </div>
     <!--文件区域-->
-    <div class="file_package">
+    <div class="file_package" v-show="!shareListShow">
       <!--路径以及加载总数-->
       <div class="file_package_title">
         <div class="file_package_title_info">
@@ -89,6 +90,36 @@
             <div class="choose" @mousedown.left.stop>
               <el-checkbox v-model="item.checked" @change="folderSelect(item,index)"></el-checkbox>
             </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--已分享文件列表-->
+    <div class="share_package" v-show="shareListShow">
+      <div class="share_package_title">
+        <div>链接分享<span>(分享失败超过1年以上的链接记录将被自动清理)</span></div>
+        <div style="color: rgb(102, 102, 102)">已加载{{this.shareListContent.length}}个</div>
+      </div>
+      <div class="share_package_content">
+        <ul>
+          <li class="share_block_style share_block_title">
+            <div class="block_four block">分享文件</div>
+            <div class="block_half block"></div>
+            <div class="block_one block">提取码</div>
+            <div class="block_one block">保存次数</div>
+            <div class="block_one block">下载次数</div>
+            <div class="block_two block">分享时间</div>
+            <div class="block_one block">失效时间</div>
+          </li>
+          <input type="text" :value="shareUrl" id="key" style="opacity: 0;position: absolute">
+          <li v-for="(item,index) in shareListContent" class="share_block_style share_block_list" :key="index">
+            <div class="block_four block">{{item.fileId.fileName}}</div>
+            <div class="block_half block copy" data-clipboard-target="#key" @click="changeShareUrl(item.url)"><i class="el-icon-document"></i></div>
+            <div class="block_one block">{{item.code}}</div>
+            <div class="block_one block">{{item.saveTimes}}</div>
+            <div class="block_one block">{{item.downloadTimes}}</div>
+            <div class="block_two block">{{item.dateTime}}</div>
+            <div class="block_one block">{{item.status}}</div>
           </li>
         </ul>
       </div>
@@ -164,14 +195,68 @@
         </div>
       </transition>
     </div>
+    <!--创建分享窗口-->
+    <div class="create_share" v-show="createShareShow">
+      <div class="share_container">
+        <div class="share_header">
+          <div class="name">分享文件：{{checkedObj.fileName}}</div>
+          <div class="close" @click="shareShowToggleClick(false)"><i class="el-icon-close"></i></div>
+        </div>
+        <div class="share_body">
+          <div class="share_block">
+            <div class="name">分享形式：</div>
+            <div class="select">
+              <el-radio>加密 <span>仅限拥有密码者可查看，更加隐私安全</span></el-radio>
+              <el-radio disabled>公开 <span>任何人可查看或下载，同时出现在您的分享列表</span></el-radio>
+            </div>
+          </div>
+          <div class="share_block">
+            <div class="name">分享时间：</div>
+            <div class="select">
+              <el-select size="small" v-model="shareTimeSelect">
+                <el-option
+                  style="font-size: 12px"
+                  v-for="item in shareTimeOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+        <div class="share_button">
+          <el-button type="primary" @click="createShare()">创建连接</el-button>
+          <el-button @click="shareShowToggleClick(false)">取消</el-button>
+        </div>
+        <div class="share_footer">
+          配合净网行动，重邮网盘严厉打击色情低俗等不良信息的传播行为，如发现，将封禁账号。
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import { Button, Upload, Checkbox, Message, Loading, Popover, Row, Col, Progress } from 'element-ui'
+  import {
+    Button,
+    Upload,
+    Checkbox,
+    Message,
+    Loading,
+    Popover,
+    Row,
+    Col,
+    Progress,
+    Radio,
+    Select,
+    Option
+  } from 'element-ui'
   import axios from 'axios'
   import API from '../../api'
+  import Clipboard from 'clipboard'
+
   Vue.use(Button)
   Vue.use(Upload)
   Vue.use(Checkbox)
@@ -181,6 +266,9 @@
   Vue.use(Row)
   Vue.use(Col)
   Vue.use(Progress)
+  Vue.use(Radio)
+  Vue.use(Select)
+  Vue.use(Option)
   export default {
     name: '',
     data () {
@@ -260,7 +348,27 @@
         fileList: [],
         tipsShow: true,
         infoShow: true,
-        uPshow: false
+        uPshow: false,
+        shareListShow: false,
+        shareListContent: [],
+        shareTimeOption: [
+          {
+            value: '24小时后',
+            label: '24小时'
+          },
+          {
+            value: '7天后',
+            label: '7天'
+          },
+          {
+            value: '永久有效',
+            label: '永久有效'
+          }
+        ],
+        shareTimeSelect: '24小时',
+        createShareShow: false,
+        tmpId: '',
+        shareUrl: ''
       }
     },
     created () {
@@ -276,7 +384,6 @@
         target: '.file_package_content',
         loading: false,
         fullscreen: false
-//        text: '老板等等，我在拼命加载中…'
       }
       // 打开页面自动请求所有文件
       this.initFilePackageContent('allFiles')
@@ -295,20 +402,57 @@
         let tmpPath = this.fileConfig.path.split('/')
         tmpPath.splice(0, 1, '所有文件')
         return tmpPath
+      },
+      // 获取选中文件名字
+      checkedObj () {
+        if (typeof this.checkedIndex !== 'undefined' && this.checkedIndex !== '') {
+          return {
+            fileName: this.filePackageContent[this.checkedIndex].fileName,
+            id: this.filePackageContent[this.checkedIndex].id
+          }
+        }
+        return false
       }
     },
     methods: {
+      changeShareUrl (url) {
+        this.shareUrl = ''
+        this.shareUrl = 'http://localhost:8080/#/share?url=' + url
+      },
+      // 初始化粘贴板
+      initClipBoard () {
+        let copy = new Clipboard('.copy')
+        copy.on('success', () => {
+          Message.success({
+            showClose: true,
+            message: '复制成功，赶紧分享给朋友吧！',
+            duration: 2000
+          })
+        })
+      },
       // 初始化页面数据
       initFilePackageContent (kind) {
         let loading = Loading.service(this.waitDataOptions)
         this.fileConfig.path = '/'
+        this.$router.push({name: 'home', params: {path: kind}})
         if (kind === 'allFiles') {
           API.getAllFiles(this.fileConfig)
             .then(res => {
               res = res.data.data
               this.filePackageContent = res
+              this.shareListShow = false
             })
             .then(() => loading.close())
+            .catch(err => console.error(err))
+        } else if (kind === 'allShare') {
+          API.getAllShare()
+            .then(res => {
+              res = res.data.data
+              this.shareListContent = res
+              this.shareListShow = true
+            })
+            .then(() => loading.close())
+            .then(() => this.initClipBoard())
             .catch(err => console.error(err))
         } else {
           API.getKinds({kinds: kind})
@@ -425,6 +569,7 @@
           .then(res => {
             res = res.data.data
             this.filePackageContent = res
+            this.$router.push({name: 'home', params: {path: '/allFiles' + this.fileConfig.path}})
           })
           .catch(err => console.error(err))
       },
@@ -509,6 +654,7 @@
             break
           case '分享':
             console.log('分享')
+            this.shareShowToggleClick(true)
             break
           case '复制':
             console.log('复制')
@@ -594,7 +740,13 @@
       // 搜索
       search () {
         clearTimeout(this.searchWait)
-        this.searchWait = setTimeout(() => console.log('ajax中'), 300)
+        this.searchWait = setTimeout(() => {
+          API.query({fileName: this.searchContent})
+            .then(res => {
+              res = res.data.data
+              this.filePackageContent = res
+            })
+        }, 300)
       },
 
       // 新建文件夹
@@ -739,6 +891,36 @@
       // 关闭下载查看
       closeuPshow () {
         this.uPshow = false
+      },
+
+      // 创建分享
+      createShare () {
+        API.createShare({
+          status: this.shareTimeSelect,
+          id: this.tmpId
+        })
+          .then(res => {
+            res = res.data
+            if (res.status === 1) {
+              this.shareShowToggleClick(false)
+              Message.success({
+                showClose: true,
+                message: '分享成功！',
+                duration: 2000
+              })
+            }
+          })
+          .catch(err => console.error(err))
+      },
+
+      // 分享界面切换
+      shareShowToggleClick (value) {
+        this.createShareShow = value
+        if (value) {
+          this.tmpId = this.checkedObj.id
+        } else {
+          this.tmpId = ''
+        }
       }
     }
   }
@@ -757,6 +939,8 @@
     display flex
     flex-direction column
     position relative
+    &.share
+      padding 15px 0 15px 0
     .tool_list
       font-size 0
       .major_function, .secondary_function, .search
@@ -903,6 +1087,55 @@
               border-radius 2px
               border 1px solid #bfcbd9
               background #fff
+    .share_package
+      font-size 12px
+      .share_package_title
+        line-height 18px
+        padding 5px 15px
+        overflow hidden
+        border-bottom 1px solid #f2f6fd
+        span
+          color #8e99b3
+          margin-left 5px
+        div
+          display inline-block
+          float left
+        div + div
+          float right
+      .share_package_content
+        color #333
+        .share_block_title
+          line-height 36px
+          color #888
+          .block
+            padding 0 15px
+            &:hover
+              background #f6faff
+        .share_block_style
+          display flex
+          border-bottom 1px solid #f2f6fd
+          box-sizing border-box
+          line-height 44px
+          .block_half
+            flex 0.5
+            visibility hidden
+            cursor pointer
+            text-align center
+          .block_one
+            flex 1
+          .block_two
+            flex 2
+          .block_four
+            flex 3.5
+            cursor pointer
+        .share_block_list
+          .block
+            padding 0 15px
+          &:hover
+            border-bottom 1px solid #daebf4
+            background #f6faff
+            .block_half
+              visibility visible
     .context_menu
       position absolute
       border 1px solid #dde0e4
@@ -1014,4 +1247,88 @@
           line-height 33px
           border-top 1px solid #f2f6fd
           box-sizing border-box
+    .create_share
+      display block
+      position fixed
+      width 100%
+      height 100%
+      left 0px
+      top 0px
+      background rgba(0, 0, 0, .5)
+      z-index 50
+      .share_container
+        position absolute
+        width 530px
+        left 50%
+        top 50%
+        margin-left -265px
+        margin-top -165px
+        background #fff
+        .share_header
+          padding 0 10px
+          line-height 42px
+          overflow hidden
+          background #f7faff
+          border-bottom 1px solid #c4dbfe
+          .name
+            float left
+            width 480px
+            white-space nowrap
+            text-overflow ellipsis
+            overflow hidden
+            color #424e67
+            font-size 14px
+          .close
+            float right
+            cursor pointer
+            i
+              font-size 12px
+              color #5f7094
+              line-height 20px
+              margin 0 2px
+              text-align center
+        .share_body
+          margin 20px 0
+          padding 10px 20px 0
+          .share_block
+            overflow hidden
+            padding-bottom 15px
+          .name, .select
+            vertical-align top
+            display inline-block
+            padding 15px 20px 0
+            color #8b909e
+            box-sizing border-box
+          .name
+            padding 17px 20px 0
+            font-size 12px
+            font-weight 500
+          .el-radio
+            display block
+            padding-bottom 15px
+          .el-radio + .el-radio
+            margin-left 0
+            padding-bottom 0
+          .el-radio__inner
+            width 12px
+            height 12px
+          .el-radio__label
+            font-size 12px
+            color #424e67
+            font-weight 500
+        .share_button
+          margin-top 40px
+          font-size 0
+          text-align right
+          padding 0 20px
+          button
+            width 110px
+          button + button
+            width 90px
+        .share_footer
+          margin-top 15px
+          font-size 12px
+          line-height 30px
+          color #c0c4ce
+          text-align center
 </style>
